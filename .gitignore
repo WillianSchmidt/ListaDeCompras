@@ -1,69 +1,38 @@
-*.iml
-.gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-.DS_Store
-/build
-/captures
-.externalNativeBuild
-
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
-import javafx.util.StringConverter;
-import javafx.util.converter.DefaultStringConverter;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class Controller implements Initializable {
+public class CampoComMascaraController implements Initializable {
 
     @FXML
-    private TextField agencia;
+    private TextField campoTextField;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // Defina o TextFormatter personalizado
-        StringConverter<String> formatter = new StringConverter<>() {
-            @Override
-            public String toString(String value) {
-                // Aplica a máscara para exibir no campo
-                if (value == null || value.isEmpty()) {
-                    return "";
-                }
-                if (value.length() == 1 && value.equals("0")) {
-                    return "0";
-                }
-                if (value.length() > 11) {
-                    value = value.substring(0, 11);
-                }
-                StringBuilder maskedValue = new StringBuilder(value);
-                if (value.length() >= 2) {
-                    maskedValue.insert(2, ".");
-                }
-                if (value.length() >= 9) {
-                    maskedValue.insert(9, ".");
-                }
-                if (value.length() >= 11) {
-                    maskedValue.insert(11, "-");
-                }
-                return maskedValue.toString();
+        // Defina o TextFormatter personalizado para aplicar a máscara "XX.XXXXXX.X-X"
+        campoTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("\\d{2}\\.\\d{6}\\.\\d{1}-\\d")) {
+                campoTextField.setText(oldValue);
             }
+        });
+    }
 
-            @Override
-            public String fromString(String value) {
-                // Remove a máscara para obter o valor puro
-                return value.replaceAll("[^\\d]", "");
-            }
-        };
-
-        // Cria o TextFormatter e aplica no TextField
-        TextFormatter<String> textFormatter = new TextFormatter<>(formatter);
-        agencia.setTextFormatter(textFormatter);
+    // Método para acessar o campo TextField caso necessário
+    public TextField getCampoTextField() {
+        return campoTextField;
     }
 }
+
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+
+<HBox xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="caminho.para.CampoComMascaraController">
+    <!-- Use o controlador para definir o TextField com a máscara -->
+    <TextField fx:id="campoTextField" promptText="XX.XXXXXX.X-X"/>
+</HBox>
