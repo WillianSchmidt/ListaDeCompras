@@ -11,3 +11,59 @@
 /build
 /captures
 .externalNativeBuild
+
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.TextField;
+import javafx.util.StringConverter;
+import javafx.util.converter.DefaultStringConverter;
+
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class Controller implements Initializable {
+
+    @FXML
+    private TextField agencia;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        // Defina o TextFormatter personalizado
+        StringConverter<String> formatter = new StringConverter<>() {
+            @Override
+            public String toString(String value) {
+                // Aplica a máscara para exibir no campo
+                if (value == null || value.isEmpty()) {
+                    return "";
+                }
+                if (value.length() == 1 && value.equals("0")) {
+                    return "0";
+                }
+                if (value.length() > 11) {
+                    value = value.substring(0, 11);
+                }
+                StringBuilder maskedValue = new StringBuilder(value);
+                if (value.length() >= 2) {
+                    maskedValue.insert(2, ".");
+                }
+                if (value.length() >= 9) {
+                    maskedValue.insert(9, ".");
+                }
+                if (value.length() >= 11) {
+                    maskedValue.insert(11, "-");
+                }
+                return maskedValue.toString();
+            }
+
+            @Override
+            public String fromString(String value) {
+                // Remove a máscara para obter o valor puro
+                return value.replaceAll("[^\\d]", "");
+            }
+        };
+
+        // Cria o TextFormatter e aplica no TextField
+        TextFormatter<String> textFormatter = new TextFormatter<>(formatter);
+        agencia.setTextFormatter(textFormatter);
+    }
+}
