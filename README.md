@@ -1,3 +1,26 @@
+Fluig
+
+https://fluiggers.com.br/t/movimentar-solicitacao-atraves-de-uma-widget/287/4
+
+https://fluiggers.com.br/t/tentando-consumir-api-rest-dentro-do-proprio-fluig/614/3
+
+Criar Stubs
+https://tdn.totvs.com/pages/releaseview.action?pageId=73084007#Utiliza%C3%A7%C3%A3odeWebservices-CriarStubs
+https://git.fluig.com/projects/SAMPLES/repos/componentes/browse/ws-soap
+
+oAuth
+https://tdn.totvs.com/display/public/fluig/Fluig+API
+
+Widget Java
+rest-oauth
+https://git.fluig.com/projects/SAMPLES/repos/widgets/browse/rest-oauth
+
+Fluig
+
+
+
+
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
